@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishBlock Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <header class="header">
+            <div class="logo">
+                <img src="../icons/glass.png" alt="PhishBlock" width="32" height="32">
+                <h1>PhishBlock Dashboard</h1>
+            </div>
+            <div class="header-actions">    
+                <span class="version">v1.0.0</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="main-toggle" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </header>
+
+        <nav class="sidebar">
+            <button class="nav-btn active" data-tab="overview">
+                <span data-feather="home" data-size="18"></span>
+                Overview
+            </button>
+            <button class="nav-btn" data-tab="whitelist">
+                <span data-feather="check-circle" data-size="18"></span>
+                Whitelist
+            </button>
+            <button class="nav-btn" data-tab="history">
+                <span data-feather="clock" data-size="18"></span>
+                History
+            </button>
+            <button class="nav-btn" data-tab="settings">
+                <span data-feather="settings" data-size="18"></span>
+                Settings
+            </button>
+        </nav>
+
+        <main class="content">
+            <!-- Overview Tab -->
+            <div class="tab-pane active" id="tab-overview">
+                <h2>Overview</h2>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <span data-feather="activity" data-size="24"></span>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="total-analyzed">0</div>
+                            <div class="stat-label">Total Sites Analyzed</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon danger">
+                            <span data-feather="shield-off" data-size="24"></span>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value danger" id="threats-blocked">0</div>
+                            <div class="stat-label">Threats Blocked</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon warning">
+                            <span data-feather="alert-triangle" data-size="24"></span>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value warning" id="warnings-shown">0</div>
+                            <div class="stat-label">Warnings Displayed</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <span data-feather="database" data-size="24"></span>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="cache-size">0</div>
+                            <div class="stat-label">Cached Results</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Recent Activity</h3>
+                    <div class="activity-list" id="recent-activity">
+                        <div class="activity-empty">No recent activity</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Model Information</h3>
+                    <div class="model-card">
+                        <div class="model-row">
+                            <span><span data-feather="package" data-size="16"></span> Extension Version</span>
+                            <span>v1.0.0</span>
+                        </div>
+                        <div class="model-row">
+                            <span><span data-feather="server" data-size="16"></span> API Endpoint</span>
+                            <span id="model-endpoint">Detecting...</span>
+                        </div>
+                        <div class="model-row">
+                            <span><span data-feather="cpu" data-size="16"></span> Model Version</span>
+                            <span id="model-version">v1.0.0</span>
+                        </div>
+                        <div class="model-row">
+                            <span><span data-feather="zap" data-size="16"></span> Status</span>
+                            <span id="model-status">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Whitelist Tab -->
+            <div class="tab-pane" id="tab-whitelist">
+                <h2>Whitelist Management</h2>
+
+                <div class="section">
+                    <div class="section-header">
+                        <p>Whitelisted domains will never be blocked by PhishBlock.</p>
+                    </div>
+
+                    <div class="input-group inline">
+                        <input type="text" id="whitelist-input" placeholder="Enter domain (e.g., example.com)">
+                        <button class="btn btn-primary" id="add-whitelist">
+                            <span data-feather="plus" data-size="16"></span>
+                            Add Domain
+                        </button>
+                    </div>
+
+                    <div class="whitelist-table">
+                        <div class="table-header">
+                            <div class="table-col">Domain</div>
+                            <div class="table-col">Added Date</div>
+                            <div class="table-col">Actions</div>
+                        </div>
+                        <div class="table-body" id="whitelist-table-body">
+                            <div class="table-empty">No whitelisted domains yet</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History Tab -->
+            <div class="tab-pane" id="tab-history">
+                <h2>Blocked Sites History</h2>
+
+                <div class="section">
+                    <div class="section-header">
+                        <p>Recently blocked phishing attempts and suspicious sites.</p>
+                        <button class="btn btn-secondary" id="clear-history">
+                            <span data-feather="trash-2" data-size="16"></span>
+                            Clear All
+                        </button>
+                    </div>
+
+                    <div class="history-table">
+                        <div class="table-header">
+                            <div class="table-col">URL</div>
+                            <div class="table-col">Risk Level</div>
+                            <div class="table-col">Confidence</div>
+                            <div class="table-col">Date</div>
+                        </div>
+                        <div class="table-body" id="history-table-body">
+                            <div class="table-empty">No blocked sites in history</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div class="tab-pane" id="tab-settings">
+                <h2>Settings</h2>
+
+                <div class="section">
+                    <h3>Protection Settings</h3>
+                    <div class="settings-list">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">
+                                    <span data-feather="shield" data-size="16"></span>
+                                    Auto-Block Phishing Sites
+                                </div>
+                                <div class="setting-desc">Automatically block detected phishing websites</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="auto-block" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">
+                                    <span data-feather="alert-octagon" data-size="16"></span>
+                                    Strict Mode
+                                </div>
+                                <div class="setting-desc">Use lower detection threshold (more aggressive)</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="strict-mode">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">
+                                    <span data-feather="code" data-size="16"></span>
+                                    Developer Mode
+                                </div>
+                                <div class="setting-desc">Use local API (localhost:8000) for testing</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="dev-mode">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Data Management</h3>
+                    <div class="button-group">
+                        <button class="btn btn-secondary" id="clear-cache">
+                            <span data-feather="database" data-size="16"></span>
+                            Clear Cache
+                        </button>
+                        <button class="btn btn-secondary" id="export-data">
+                            <span data-feather="download" data-size="16"></span>
+                            Export Data
+                        </button>
+                        <button class="btn btn-danger" id="reset-settings">
+                            <span data-feather="refresh-ccw" data-size="16"></span>
+                            Reset All Settings
+                        </button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>About</h3>
+                    <div class="about-info">
+                        <p><strong>PhishBlock</strong> v1.0.0</p>
+                        <p>ML-Powered Phishing Detection</p>
+                        <p class="about-sub">Protecting you from online threats in real-time.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../icons/feather-loader.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+
+</html>
