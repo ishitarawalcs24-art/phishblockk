@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhishBlock</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">
+          <img src="../icons/glass.png" alt="PhishBlock" width="20" height="20">
+        </span>
+        <span class="logo-text">PhishBlock</span>
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="main-toggle" checked>
+        <span class="toggle-slider"></span>
+      </label>
+    </header>
+
+    <!-- Current Site Analysis -->
+    <section class="current-site" id="current-site-section">
+      <div class="site-header">
+        <span class="site-label">Current Site</span>
+        <button class="refresh-btn" id="refresh-analysis" title="Re-analyze">
+          <span data-feather="refresh-cw" data-size="14"></span>
+          Refresh
+        </button>
+      </div>
+
+      <div class="threat-meter-container">
+        <!-- Threat Meter Gauge -->
+        <div class="threat-meter" id="threat-meter">
+          <svg viewBox="0 0 100 60" class="meter-svg">
+            <!-- Background arc -->
+            <path class="meter-bg" d="M 10 55 A 40 40 0 0 1 90 55" />
+            <!-- Colored arc (threat level) -->
+            <path class="meter-fill" id="meter-fill" d="M 10 55 A 40 40 0 0 1 90 55" />
+            <!-- Needle -->
+            <line class="meter-needle" id="meter-needle" x1="50" y1="55" x2="50" y2="20" />
+            <circle class="meter-center" cx="50" cy="55" r="4" />
+          </svg>
+          <div class="meter-labels">
+            <span class="meter-label safe">0</span>
+            <span class="meter-label danger">100</span>
+          </div>
+        </div>
+
+        <!-- Status Info -->
+        <div class="site-info-compact">
+          <div class="site-domain" id="current-domain">Loading...</div>
+          <div class="site-status" id="site-status">
+            <span class="status-indicator" id="status-indicator"></span>
+            <span class="status-text" id="status-text">Analyzing...</span>
+          </div>
+          <div class="confidence-display" id="confidence-display">
+            <span class="confidence-value" id="confidence">-</span>
+            <span class="confidence-label">confidence</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hidden elements for compatibility -->
+      <img src="../icons/check.png" alt="Safe" class="status-icon" id="status-icon-safe"
+        style="display: none; width: 16px; height: 16px;">
+      <span id="risk-level" style="display: none;">-</span>
+
+      <button class="explain-btn" id="explain-btn" style="display: none;">
+        <span data-feather="info" data-size="14"></span>
+        Explain Analysis
+      </button>
+      <div class="reasoning-section" id="reasoning-section" style="display: none;">
+        <div class="reasoning-label">Analysis Reasoning:</div>
+        <div class="reasoning-text" id="reasoning-text">Loading...</div>
+      </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="stats-section">
+      <div class="stat-card">
+        <span class="stat-icon" data-feather="activity" data-size="16"></span>
+        <div>
+          <span class="stat-number" id="stat-analyzed">0</span>
+          <span class="stat-label">Analyzed</span>
+        </div>
+      </div>
+      <div class="stat-card blocked">
+        <span class="stat-icon" data-feather="shield-off" data-size="16"></span>
+        <div>
+          <span class="stat-number" id="stat-blocked">0</span>
+          <span class="stat-label">Blocked</span>
+        </div>
+      </div>
+      <div class="stat-card warning">
+        <span class="stat-icon" data-feather="alert-triangle" data-size="16"></span>
+        <div>
+          <span class="stat-number" id="stat-warnings">0</span>
+          <span class="stat-label">Warnings</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Open Dashboard Button -->
+    <section class="dashboard-link">
+      <button class="dashboard-btn" id="open-dashboard">
+        <span data-feather="grid" data-size="16"></span>
+        Open Full Dashboard
+      </button>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <span>PhishBlock v1.0.0</span>
+      <span class="footer-sep">|</span>
+      <span>ML-Powered Protection</span>
+    </footer>
+  </div>
+
+  <script src="../icons/feather-loader.js"></script>
+  <script src="popup.js"></script>
+</body>
+
+</html>
